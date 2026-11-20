@@ -28,6 +28,7 @@ function Book(title, author, pageCount, hasBeenRead) {
     this.author = author;
     this.pageCount = pageCount;
     this.hasBeenRead = hasBeenRead;
+    this.id = self.crypto.randomUUID();
 }
 
 /**
