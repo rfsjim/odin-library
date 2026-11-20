@@ -20,6 +20,10 @@ const myLibrary = [];
  * @param {boolean} hasBeenRead 
  */
 function Book(title, author, pageCount, hasBeenRead) {
+    if (!new.target) {
+        throw new Error("Need to use a new object assignment");
+    }
+    
     this.title = title;
     this.author = author;
     this.pageCount = pageCount;
