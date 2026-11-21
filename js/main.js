@@ -1,6 +1,10 @@
 /**
- * An Odin Library Collection
+ * @fileoverview An Odin Library Collection
+ * @author James
+ * @version 0.1
+ * @date 21st November 2026
  * 
+ * @description
  * Book objects should have
  *  - the book’s title,
  *  - author,
@@ -9,6 +13,7 @@
  *  - function info() that can report the book info
  */
 
+// array to hold book objects
 const myLibrary = [];
 
 /**
@@ -47,9 +52,10 @@ Book.prototype.info = function () {
  * @param {text} author 
  * @param {number} pageCount 
  * @param {boolean} hasBeenRead
+ * @param {Object[]} libraryArray
  * @returns {void}
  */
-function addBookToLibrary(title, author, pageCount, hasBeenRead) {
+function addBookToLibrary(title, author, pageCount, hasBeenRead, libraryArray = myLibrary) {
     if (
         !title ||
         !author ||
@@ -61,5 +67,19 @@ function addBookToLibrary(title, author, pageCount, hasBeenRead) {
     }
     
     const book = new Book(title, author, pageCount, hasBeenRead);
-    myLibrary.push(book);
+    libraryArray.push(book);
+}
+
+/**
+ * Gets Books From the Library Array
+ * @param {Object[]} libraryArray 
+ */
+function getBooksFromLibrary(libraryArray) {
+    libraryArray.forEach(
+        (book) => {
+            const rowWrapper = document.createElement("div");
+            rowWrapper.classList.add("row");
+            rowWrapper.textContent = book.info();
+        } 
+    );
 }
