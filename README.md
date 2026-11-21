@@ -1,5 +1,11 @@
 # Odin Library
 
+![License](https://img.shields.io/github/license/rfsjim/odin-library)
+![Last Commit](https://img.shields.io/github/last-commit/rfsjim/odin-library/development/colony-v2) 
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/rfsjim/odin-library/development/colony-v2)
+
+A webapp to store and display books in a library.
+
 Instructions
 
 1. Set up a Git repository for your project with skeleton HTML/CSS and JS files.
