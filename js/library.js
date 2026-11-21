@@ -77,9 +77,13 @@ function addBookToLibrary(title, author, pageCount, hasBeenRead, libraryArray = 
 function getBooksFromLibrary(libraryArray = myLibrary) {
     libraryArray.forEach(
         (book) => {
+            const libraryCatalogue = document.querySelector("div#catalogue");
+
             const rowWrapper = document.createElement("div");
             rowWrapper.classList.add("row");
             rowWrapper.textContent = book.info();
+
+            libraryCatalogue.appendChild(rowWrapper);
         } 
     );
 }
@@ -88,18 +92,78 @@ function getBooksFromLibrary(libraryArray = myLibrary) {
  * Add dummy books into the library for testing
  */
 function loadBooksIntoLibrary() {
-    addBookToLibrary('Project Hail Mary', 'Andy Weir', 496, false);
-    addBookToLibrary('Dune', 'Frank Herbert', 688, false);
-    addBookToLibrary('The Left Hand of Darkness', 'Ursula K. Le Guin', 288, false);
-    addBookToLibrary('Neuromancer', 'William Gibson', 304, false);
-    addBookToLibrary('The Three-Body Problem', 'Liu Cixin', 400, false);
-    addBookToLibrary('Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch', 'Terry Pratchett and Neil Gaiman', 416, false);
-    addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 310, true);
-    addBookToLibrary('Code: The Hidden Language of Computer Hardware and Software', 'Charles Petzold', 400, false);
-    addBookToLibrary('Introduction to Algorithms', 'Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein', 1312, false);
-    addBookToLibrary('Structure and Interpretation of Computer Programs', 'Harold Abelson, Gerald Jay Sussman and Julie Sussman', 657, false);
-    addBookToLibrary('The Mythical Man-Month', 'Frederick P. Brooks Jr.', 336, false);
-    addBookToLibrary('The Art of Computer Programming', 'Donald E. Knuth', 3168, false);
+    addBookToLibrary(
+        'Project Hail Mary',
+        'Andy Weir',
+        496,
+        false
+    );
+    addBookToLibrary(
+        'Dune',
+        'Frank Herbert',
+        688,
+        false
+    );
+    addBookToLibrary(
+        'The Left Hand of Darkness',
+        'Ursula K. Le Guin',
+        288,
+        false
+    );
+    addBookToLibrary(
+        'Neuromancer',
+        'William Gibson',
+        304,
+        false
+    );
+    addBookToLibrary(
+        'The Three-Body Problem',
+        'Liu Cixin',
+        400,
+        false
+    );
+    addBookToLibrary(
+        'Good Omens: The Nice and Accurate Prophecies of Agnes Nutter, Witch',
+        'Terry Pratchett and Neil Gaiman',
+        416,
+        true
+    );
+    addBookToLibrary(
+        'The Hobbit',
+        'J.R.R. Tolkien',
+        310,
+        true
+    );
+    addBookToLibrary(
+        'Code: The Hidden Language of Computer Hardware and Software',
+        'Charles Petzold',
+        400,
+        false
+    );
+    addBookToLibrary(
+        'Introduction to Algorithms',
+        'Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein',
+        1312,
+        false
+    );
+    addBookToLibrary(
+        'Structure and Interpretation of Computer Programs',
+        'Harold Abelson, Gerald Jay Sussman and Julie Sussman',
+        657,
+        false
+    );
+    addBookToLibrary(
+        'The Mythical Man-Month',
+        'Frederick P. Brooks Jr.',
+        336,
+        false
+    );
+    addBookToLibrary(
+        'The Art of Computer Programming',
+        'Donald E. Knuth',
+        3168,
+        false
+    );
 }
 
 /**
