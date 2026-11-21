@@ -23,14 +23,14 @@ document.getElementById('closeBtn').onclick = () => dialog.close();
 
 // setup form behaviour
 const addBookForm = document.getElementById('addBooksForm');
-addBookForm.addEventListener('submit', function(e) {
+addBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    formData = new FormData(addBookForm);
+    const formData = new FormData(addBookForm);
     const title = formData.get('title');
     const author = formData.get('author');
     const pageCount = Number(formData.get('pages'));
-    const hasBeenRead = formData.get('read')  ===  'true' ? true : false;
+    const hasBeenRead = formData.get('read')  ===  'true';
 
     addBookToLibrary(
         title.trim(),
@@ -39,15 +39,17 @@ addBookForm.addEventListener('submit', function(e) {
         hasBeenRead
     );
 
+    addBookForm.reset();
+
     clearBooksFromCatalogue();
     displayBooksFromLibrary();
 });
 
 /**
- * Book Object
+ * Creates a Book Object
  * 
- * @param {text} title 
- * @param {text} author 
+ * @param {string} title 
+ * @param {string} author 
  * @param {number} pageCount 
  * @param {boolean} hasBeenRead 
  */
@@ -60,13 +62,13 @@ function Book(title, author, pageCount, hasBeenRead) {
     this.author = author;
     this.pageCount = pageCount;
     this.hasBeenRead = hasBeenRead;
-    this.id = self.crypto.randomUUID();
+    this.id = crypto.randomUUID();
 }
 
 /**
  * Gets information about the book
  * 
- * @returns {text} 
+ * @returns {string} 
  */
 Book.prototype.info = function () {
     const readYet = this.hasBeenRead ? 'have already' : 'have not';
@@ -74,22 +76,13 @@ Book.prototype.info = function () {
 }
 
 /**
- * Gets Book Title
- * 
- * @returns {string}
- */
-Book.prototype.getTitle = function() {
-    return this.title;
-}
-
-/**
  * Add Book Object to Library Array
  * 
- * @param {text} title 
- * @param {text} author 
+ * @param {string} title 
+ * @param {string} author 
  * @param {number} pageCount 
  * @param {boolean} hasBeenRead
- * @param {Object[]} libraryArray
+ * @param {Book[]} libraryArray
  * @returns {void}
  */
 function addBookToLibrary(title, author, pageCount, hasBeenRead, libraryArray = myLibrary) {
@@ -97,10 +90,17 @@ function addBookToLibrary(title, author, pageCount, hasBeenRead, libraryArray = 
         typeof title !== "string"  ||
         typeof author !== "string" ||
         typeof pageCount !== "number" ||
+        !Number.isFinite(pageCount) ||
+        pageCount <= 0 ||
         typeof hasBeenRead !== "boolean"
     ) {
-        
         throw new Error("Invalid arguments");
+    }
+    if (
+        !title.trim() ||
+        !author.trim()
+    ) {
+        throw new Error("Title and author cannot be empty");
     }
     
     const book = new Book(title, author, pageCount, hasBeenRead);
@@ -111,29 +111,32 @@ function addBookToLibrary(title, author, pageCount, hasBeenRead, libraryArray = 
  * Iterates through Books From the Library Array
  * Renders each into a HTML Card
  * 
- * @param {Object[]} libraryArray 
+ * @param {Book[]} libraryArray 
  */
 function displayBooksFromLibrary(libraryArray = myLibrary) {
+    const libraryCatalogue = document.querySelector("#catalogue");
+    const fragment = document.createDocumentFragment();
+
     libraryArray.forEach(
         (book) => {
-            const libraryCatalogue = document.querySelector("div#catalogue");
-
             const cardWrapper = document.createElement("div");
+            cardWrapper.dataset.bookId = book.id;
             cardWrapper.classList.add("card");
 
             const cardTitle = document.createElement("h4");
             cardTitle.classList.add("card-title");
             cardTitle.textContent = book.title;
-            cardWrapper.appendChild(cardTitle);
 
             const cardText = document.createElement("p");
             cardText.classList.add("card-text");
             cardText.textContent = book.info();
-            cardWrapper.appendChild(cardText);
 
-            libraryCatalogue.appendChild(cardWrapper);
+            cardWrapper.append(cardTitle, cardText);
+            fragment.appendChild(cardWrapper);
         } 
     );
+
+    libraryCatalogue.appendChild(fragment);
 }
 
 /**
@@ -143,7 +146,7 @@ function displayBooksFromLibrary(libraryArray = myLibrary) {
  */
 function clearBooksFromCatalogue() {
     const libraryCatalogue = document.querySelector("div#catalogue");
-    libraryCatalogue.innerHTML = '';
+    libraryCatalogue.replaceChildren();
 }
 
 /**
