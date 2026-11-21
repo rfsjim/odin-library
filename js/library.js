@@ -76,7 +76,7 @@ Book.prototype.info = function () {
  * Toggles The Read Status of the book
  */
 Book.prototype.toggleRead = function () {
-    this.hasBeenRead = this.hasBeenRead === true ? false : true;
+    this.hasBeenRead = !this.hasBeenRead;
 }
 
 /**
@@ -94,6 +94,7 @@ function addBookToLibrary(title, author, pageCount, hasBeenRead, libraryArray = 
         typeof title !== "string"  ||
         typeof author !== "string" ||
         typeof pageCount !== "number" ||
+        !Number.isInteger(pageCount) ||
         !Number.isFinite(pageCount) ||
         pageCount <= 0 ||
         typeof hasBeenRead !== "boolean"
@@ -137,14 +138,12 @@ function displayBooksFromLibrary(libraryArray = myLibrary) {
             const removeBtn = document.createElement("button");
             removeBtn.classList.add("card-button");
             removeBtn.classList.add("remove-button");
-            removeBtn.id = book.id;
             removeBtn.textContent = `Remove ${book.title} from the library`;
             removeBtn.dataset.bookId = book.id;
 
             const readBtn = document.createElement("button");
             readBtn.classList.add("card-button");
             readBtn.classList.add("read-button");
-            readBtn.id = book.id;
             const readStatus = book.hasBeenRead === true ? 'read' : 'unread';
             readBtn.textContent = `Toggle ${book.title} from ${readStatus}`;
             readBtn.dataset.bookId = book.id;
@@ -262,16 +261,12 @@ function renderCatalogue() {
  * @param {Book[]} libraryArray
  */
 function removeBookFromCatalogue(bookId, libraryArray=myLibrary) {
-    const index = libraryArray.findIndex(
-        (book) => book.id === bookId 
-    );
+    const index = getBookById(bookId, libraryArray);
 
     if (index === -1) {
         return;
     }
 
-    console.log(`Removed ${libraryArray[index].title}`);
-    
     libraryArray.splice(index, 1);
 
     renderCatalogue();
@@ -284,15 +279,11 @@ function removeBookFromCatalogue(bookId, libraryArray=myLibrary) {
  * @returns {void}
  */
 function updateBookReadStatus(bookId, libraryArray=myLibrary) {
-    const index = libraryArray.findIndex(
-        (book) => book.id === bookId
-    );
+    const index = getBookById(bookId, libraryArray);
 
     if (index === -1) {
         return;
     }
-
-    console.log(`Toggled Book Read Status for ${libraryArray[index].title}`);
 
     libraryArray[index].toggleRead();
 
@@ -320,6 +311,12 @@ function attachEventListenersToCardButtons() {
             });
         }
     }
+}
+
+function getBookById(bookId, libraryArray=myLibrary) {
+    return libraryArray.findIndex(
+        (book) => book.id === bookId
+    );
 }
 
 /**
