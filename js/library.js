@@ -73,6 +73,13 @@ Book.prototype.info = function () {
 }
 
 /**
+ * Toggles The Read Status of the book
+ */
+Book.prototype.toggleRead = function () {
+    this.hasBeenRead = this.hasBeenRead === true ? false : true;
+}
+
+/**
  * Add Book Object to Library Array
  * 
  * @param {string} title 
@@ -134,7 +141,15 @@ function displayBooksFromLibrary(libraryArray = myLibrary) {
             removeBtn.textContent = `Remove ${book.title} from the library`;
             removeBtn.dataset.bookId = book.id;
 
-            cardWrapper.append(cardTitle, cardText, removeBtn);
+            const readBtn = document.createElement("button");
+            readBtn.classList.add("card-button");
+            readBtn.classList.add("read-button");
+            readBtn.id = book.id;
+            const readStatus = book.hasBeenRead === true ? 'read' : 'unread';
+            readBtn.textContent = `Toggle ${book.title} from ${readStatus}`;
+            readBtn.dataset.bookId = book.id;
+
+            cardWrapper.append(cardTitle, cardText, removeBtn, readBtn);
             fragment.appendChild(cardWrapper);
         } 
     );
@@ -238,7 +253,7 @@ function renderCatalogue() {
     addBookForm.reset();
     clearBooksFromCatalogue();
     displayBooksFromLibrary();
-    attachEventListenersToRemoveButtons();
+    attachEventListenersToCardButtons();
 }
 
 /**
@@ -262,18 +277,54 @@ function removeBookFromCatalogue(bookId, libraryArray=myLibrary) {
     renderCatalogue();
 }
 
-function attachEventListenersToRemoveButtons() {
-    // setup remove button behaviour
-    const removeBookBtns = document.getElementsByClassName('remove-button');
-    for (const element of removeBookBtns) {
-        element.addEventListener('click', (e) => {
-            removeBookFromCatalogue(element.dataset.bookId);
-        });
+/**
+ * Updates Book Read Status
+ * @param {string} bookId 
+ * @param {Book[]} libraryArray 
+ * @returns {void}
+ */
+function updateBookReadStatus(bookId, libraryArray=myLibrary) {
+    const index = libraryArray.findIndex(
+        (book) => book.id === bookId
+    );
+
+    if (index === -1) {
+        return;
+    }
+
+    console.log(`Toggled Book Read Status for ${libraryArray[index].title}`);
+
+    libraryArray[index].toggleRead();
+
+    renderCatalogue();
+}
+
+/**
+ * Attaches Event Listeners to Card Buttons
+ * @returns {void}
+ */
+function attachEventListenersToCardButtons() {
+    // setup card button behaviours
+
+    const buttonActions = {
+        'remove-button': (bookId) => removeBookFromCatalogue(bookId),
+        'read-button': (bookId) => updateBookReadStatus(bookId),
+    };
+
+    for (const [className, action] of Object.entries(buttonActions)) {
+        const buttons = document.getElementsByClassName(className);
+
+        for (const element of buttons) {
+            element.addEventListener('click', () => {
+                action(element.dataset.bookId);
+            });
+        }
     }
 }
 
 /**
  * Run the main function
+ * @returns {void}
  */
 function runLibrary() {
     loadBooksIntoLibrary();
