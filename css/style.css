@@ -4,7 +4,7 @@ body {
 
 #catalogue {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
     background-color: lightgray;
     gap: 20px;
     padding: 20px;
@@ -20,4 +20,21 @@ body {
 
 .card-title {
     font-size: 20px;
+}
+
+#addBooksBtn {
+    padding: 10px;
+    margin: 20px;
+}
+
+dialog {
+    border: none;
+    border-radius: 8px;
+    padding: 1.5rem;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
 }

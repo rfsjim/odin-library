@@ -9,8 +9,21 @@
 <body>
     <div id="container">
         <h1>An Odin Library</h1>
+        <button id="addBooksBtn">Add New Book</button>
+        <dialog id="addBooksModal">
+            <h2>Add Books to Library</h2>
+            <form action="#" id="addBooksForm">
+                What is the Book's Title?: <input type="text" name="title" id="title"><br>
+                Who is the Author?: <input type="text" name="author" id="author"><br>
+                How Many Pages?: <input type="number" name="pages" id="pages" step="1" value="1"><br>
+                Have you read it?: <select name="read" id="read">
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </form>
+            <button id="closeBtn">Close</button>
+        </dialog>
         <div id="catalogue">
-
         </div>
     </div>
     <script src="./js/library.js">

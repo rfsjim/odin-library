@@ -16,6 +16,30 @@
 // array to hold book objects
 const myLibrary = [];
 
+// setup modal dialog for book entry form
+const dialog = document.getElementById('addBooksModal');
+document.getElementById('addBooksBtn').onclick = () => dialog.showModal();
+document.getElementById('closeBtn').onclick = () => dialog.close();
+
+// setup form behaviour
+const addBookForm = document.querySelector('addBooksForm"');
+addBookForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    formData = new FormData(addBookForm);
+    const title = formData.get('title');
+    const author = formData.get('author');
+    const pageCount = Number(formData.get('pages'));
+    const hasBeenRead = formData.get('read');
+
+    addBookToLibrary(
+        title.trim(),
+        author.trim(),
+        pageCount,
+        hasBeenRead
+    );
+});
+
 /**
  * Book Object
  * 
