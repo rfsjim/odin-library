@@ -22,7 +22,7 @@ document.getElementById('addBooksBtn').onclick = () => dialog.showModal();
 document.getElementById('closeBtn').onclick = () => dialog.close();
 
 // setup form behaviour
-const addBookForm = document.querySelector('addBooksForm"');
+const addBookForm = document.getElementById('addBooksForm');
 addBookForm.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -30,7 +30,7 @@ addBookForm.addEventListener('submit', function(e) {
     const title = formData.get('title');
     const author = formData.get('author');
     const pageCount = Number(formData.get('pages'));
-    const hasBeenRead = formData.get('read');
+    const hasBeenRead = formData.get('read')  ===  'true' ? true : false;
 
     addBookToLibrary(
         title.trim(),
@@ -38,6 +38,9 @@ addBookForm.addEventListener('submit', function(e) {
         pageCount,
         hasBeenRead
     );
+
+    clearBooksFromCatalogue();
+    displayBooksFromLibrary();
 });
 
 /**
@@ -131,6 +134,16 @@ function displayBooksFromLibrary(libraryArray = myLibrary) {
             libraryCatalogue.appendChild(cardWrapper);
         } 
     );
+}
+
+/**
+ * Clears the Books in the Render of the Catalogue
+ * 
+ * @returns {void}
+ */
+function clearBooksFromCatalogue() {
+    const libraryCatalogue = document.querySelector("div#catalogue");
+    libraryCatalogue.innerHTML = '';
 }
 
 /**
