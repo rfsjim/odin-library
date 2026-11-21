@@ -37,12 +37,22 @@ function Book(title, author, pageCount, hasBeenRead) {
 }
 
 /**
- * Displays information about the book
+ * Gets information about the book
  * 
  * @returns {text} 
  */
 Book.prototype.info = function () {
-    return `${this.title} by ${this.author}, ${this.pageCount} pages, read yet ${this.hasBeenRead}`;
+    const readYet = this.hasBeenRead ? 'have already' : 'have not';
+    return `${this.title} by ${this.author}, is ${this.pageCount} pages long. I ${readYet} read it`;
+}
+
+/**
+ * Gets Book Title
+ * 
+ * @returns {string}
+ */
+Book.prototype.getTitle = function() {
+    return this.title;
 }
 
 /**
@@ -71,19 +81,30 @@ function addBookToLibrary(title, author, pageCount, hasBeenRead, libraryArray = 
 }
 
 /**
- * Gets Books From the Library Array
+ * Iterates through Books From the Library Array
+ * Renders each into a HTML Card
+ * 
  * @param {Object[]} libraryArray 
  */
-function getBooksFromLibrary(libraryArray = myLibrary) {
+function displayBooksFromLibrary(libraryArray = myLibrary) {
     libraryArray.forEach(
         (book) => {
             const libraryCatalogue = document.querySelector("div#catalogue");
 
-            const rowWrapper = document.createElement("div");
-            rowWrapper.classList.add("row");
-            rowWrapper.textContent = book.info();
+            const cardWrapper = document.createElement("div");
+            cardWrapper.classList.add("card");
 
-            libraryCatalogue.appendChild(rowWrapper);
+            const cardTitle = document.createElement("h4");
+            cardTitle.classList.add("card-title");
+            cardTitle.textContent = book.title;
+            cardWrapper.appendChild(cardTitle);
+
+            const cardText = document.createElement("p");
+            cardText.classList.add("card-text");
+            cardText.textContent = book.info();
+            cardWrapper.appendChild(cardText);
+
+            libraryCatalogue.appendChild(cardWrapper);
         } 
     );
 }
@@ -172,7 +193,7 @@ function loadBooksIntoLibrary() {
 function runLibrary() {
     loadBooksIntoLibrary();
 
-    getBooksFromLibrary();
+    displayBooksFromLibrary();
 }
 
 runLibrary();
