@@ -40,7 +40,26 @@ Book.prototype.info = function () {
     return `${title} by ${author}, ${pageCount} pages, read yet ${hasBeenRead}`;
 }
 
-
-function addBookToLibrary() {
-  // take params, create a book then store it in the array
+/**
+ * Add Book Object to Library Array
+ * 
+ * @param {text} title 
+ * @param {text} author 
+ * @param {number} pageCount 
+ * @param {boolean} hasBeenRead
+ * @returns {void}
+ */
+function addBookToLibrary(title, author, pageCount, hasBeenRead) {
+    if (
+        !title ||
+        !author ||
+        !pageCount ||
+        !hasBeenRead
+    ) {
+        
+        throw new Error("Invalid arguments");
+    }
+    
+    const book = new Book(title, author, pageCount, hasBeenRead);
+    myLibrary.push(book);
 }
