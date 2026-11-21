@@ -13,10 +13,14 @@
         <dialog id="addBooksModal">
             <h2>Add Books to Library</h2>
             <form action="#" id="addBooksForm">
-                What is the Book's Title?: <input type="text" name="title" id="title"><br>
-                Who is the Author?: <input type="text" name="author" id="author"><br>
-                How Many Pages?: <input type="number" name="pages" id="pages" step="1" value="1"><br>
-                Have you read it?: <select name="read" id="read">
+                <label for="title">What is the Book's Title?: </label>
+                <input type="text" name="title" id="title">
+                <label for="author">Who is the Author?: </label>
+                <input type="text" name="author" id="author">
+                <label for="pages">How Many Pages?: </label>
+                <input type="number" name="pages" id="pages" step="1" value="1">
+                <label for="read">Have you read it?: </label>
+                <select name="read" id="read">
                     <option value="true">Yes</option>
                     <option value="false">No</option>
                 </select>

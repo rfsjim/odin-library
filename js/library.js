@@ -39,10 +39,7 @@ addBookForm.addEventListener('submit', (e) => {
         hasBeenRead
     );
 
-    addBookForm.reset();
-
-    clearBooksFromCatalogue();
-    displayBooksFromLibrary();
+    renderCatalogue();
 });
 
 /**
@@ -120,7 +117,6 @@ function displayBooksFromLibrary(libraryArray = myLibrary) {
     libraryArray.forEach(
         (book) => {
             const cardWrapper = document.createElement("div");
-            cardWrapper.dataset.bookId = book.id;
             cardWrapper.classList.add("card");
 
             const cardTitle = document.createElement("h4");
@@ -131,7 +127,13 @@ function displayBooksFromLibrary(libraryArray = myLibrary) {
             cardText.classList.add("card-text");
             cardText.textContent = book.info();
 
-            cardWrapper.append(cardTitle, cardText);
+            const removeBtn = document.createElement("button");
+            removeBtn.classList.add("card-button");
+            removeBtn.id = book.id;
+            removeBtn.textContent = `Remove ${book.title} from the library`;
+            removeBtn.dataset.bookId = book.id;
+
+            cardWrapper.append(cardTitle, cardText, removeBtn);
             fragment.appendChild(cardWrapper);
         } 
     );
@@ -225,6 +227,16 @@ function loadBooksIntoLibrary() {
         3168,
         false
     );
+}
+
+/**
+ * Renders the Catalogue with latest books
+ * @returns {void}
+ */
+function renderCatalogue() {
+    addBookForm.reset();
+    clearBooksFromCatalogue();
+    displayBooksFromLibrary();
 }
 
 /**
