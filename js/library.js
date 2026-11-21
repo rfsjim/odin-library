@@ -129,6 +129,7 @@ function displayBooksFromLibrary(libraryArray = myLibrary) {
 
             const removeBtn = document.createElement("button");
             removeBtn.classList.add("card-button");
+            removeBtn.classList.add("remove-button");
             removeBtn.id = book.id;
             removeBtn.textContent = `Remove ${book.title} from the library`;
             removeBtn.dataset.bookId = book.id;
@@ -237,6 +238,38 @@ function renderCatalogue() {
     addBookForm.reset();
     clearBooksFromCatalogue();
     displayBooksFromLibrary();
+    attachEventListenersToRemoveButtons();
+}
+
+/**
+ * Removes a book from the catalogue
+ * @param {string} bookId 
+ * @param {Book[]} libraryArray
+ */
+function removeBookFromCatalogue(bookId, libraryArray=myLibrary) {
+    const index = libraryArray.findIndex(
+        (book) => book.id === bookId 
+    );
+
+    if (index === -1) {
+        return;
+    }
+
+    console.log(`Removed ${libraryArray[index].title}`);
+    
+    libraryArray.splice(index, 1);
+
+    renderCatalogue();
+}
+
+function attachEventListenersToRemoveButtons() {
+    // setup remove button behaviour
+    const removeBookBtns = document.getElementsByClassName('remove-button');
+    for (const element of removeBookBtns) {
+        element.addEventListener('click', (e) => {
+            removeBookFromCatalogue(element.dataset.bookId);
+        });
+    }
 }
 
 /**
@@ -245,7 +278,7 @@ function renderCatalogue() {
 function runLibrary() {
     loadBooksIntoLibrary();
 
-    displayBooksFromLibrary();
+    renderCatalogue();
 }
 
 runLibrary();
